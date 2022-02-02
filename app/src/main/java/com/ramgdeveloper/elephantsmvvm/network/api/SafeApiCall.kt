@@ -1,6 +1,6 @@
 package com.ramgdeveloper.elephantsmvvm.network.api
 
-import com.ramgdeveloper.elephantsmvvm.ui.Resource
+import com.ramgdeveloper.elephantsmvvm.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

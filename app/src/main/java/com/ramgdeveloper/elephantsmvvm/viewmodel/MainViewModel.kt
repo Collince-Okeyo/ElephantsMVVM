@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramgdeveloper.elephantsmvvm.model.Elephant
 import com.ramgdeveloper.elephantsmvvm.network.repository.ElephantsRepository
-import com.ramgdeveloper.elephantsmvvm.ui.Resource
+import com.ramgdeveloper.elephantsmvvm.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
