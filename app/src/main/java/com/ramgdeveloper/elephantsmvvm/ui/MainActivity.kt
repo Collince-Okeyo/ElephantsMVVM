@@ -31,22 +31,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        fetchedElephantsObserver()
-        viewModel.getAnElephant()
         adapter = ElephantsAdapter(View.OnClickListener {
 
         })
-    }
 
+        fetchedElephantsObserver()
+        viewModel.getAnElephant()
+
+    }
     private fun fetchedElephantsObserver() {
         viewModel.elephantResult.observe(this, Observer {
             when (it) {
                 is Resource.Success -> {
                     Timber.d("Success: ${it.data?.get(0)}")
-                    /*CoroutineScope(Dispatchers.IO).launch {
-                        Timber.d("${adapter.submitList(it.data)}")
-                        Timber.d("Data displayed in the Recyclerview")
-                    }*/
+                    adapter.submitList(it.data)
+                    binding.elephantsRecycler.adapter = adapter
+                    binding.elephantsRecycler.hideShimmerAdapter()
                 }
                 is Resource.Loading -> {
                     Timber.d("Loading: Fetching Data")
