@@ -1,11 +1,11 @@
 package com.ramgdeveloper.elephantsmvvm.ui
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.ramgdeveloper.elephantsmvvm.R
@@ -14,9 +14,6 @@ import com.ramgdeveloper.elephantsmvvm.databinding.ActivityMainBinding
 import com.ramgdeveloper.elephantsmvvm.util.Resource
 import com.ramgdeveloper.elephantsmvvm.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -24,40 +21,31 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var adapter: ElephantsAdapter
+    private val adapter by lazy { ElephantsAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        adapter = ElephantsAdapter(View.OnClickListener {
-
-        })
-
-        fetchedElephantsObserver()
-        viewModel.getAnElephant()
-
+        subscribeToElephantsObserver()
     }
-    private fun fetchedElephantsObserver() {
-        viewModel.elephantResult.observe(this, Observer {
-            when (it) {
+    private fun subscribeToElephantsObserver() {
+        viewModel.elephantsResult.observe(this, Observer { result ->
+            when (result) {
                 is Resource.Success -> {
-                    Timber.d("Success: ${it.data?.get(0)}")
-                    adapter.submitList(it.data)
+                    binding.progressBar.isVisible = false
+                    val elephants = result.data
+                    adapter.submitList(elephants)
                     binding.elephantsRecycler.adapter = adapter
-                    binding.elephantsRecycler.hideShimmerAdapter()
                 }
                 is Resource.Loading -> {
-                    Timber.d("Loading: Fetching Data")
-                    Toast.makeText(this, "Loading data", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.isVisible = true
                 }
-                is Resource.Failure -> {
-                    Timber.d("Failure: ${it.message}")
-                    Toast.makeText(this, "Loading Data Failed", Toast.LENGTH_SHORT).show()
-                    /*val snack = Snackbar.make(applicationContext, "Passwords do not match", Snackbar.LENGTH_LONG)
-                    snack.setActionTextColor(Color.GREEN)
-                    snack.show()*/
+                is Resource.Error -> {
+                    binding.progressBar.isVisible = false
+                    Snackbar.make(binding.root, result.message.toString(), Snackbar.LENGTH_LONG).show()
                 }
             }
         })

@@ -1,7 +1,7 @@
 package com.ramgdeveloper.elephantsmvvm.di
 
-import com.ramgdeveloper.elephantsmvvm.network.api.ApiService
-import com.ramgdeveloper.elephantsmvvm.network.repository.ElephantsRepository
+import com.ramgdeveloper.elephantsmvvm.data.remote.ElephantsApi
+import com.ramgdeveloper.elephantsmvvm.data.repository.ElephantsRepository
 import com.ramgdeveloper.elephantsmvvm.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -17,17 +17,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService{
-        val retrofit = Retrofit.Builder()
+    fun provideElephantsApi(): ElephantsApi{
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        return retrofit.create(ApiService::class.java)
+            .create(ElephantsApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideElephantsRepository(apiService: ApiService): ElephantsRepository{
-        return ElephantsRepository(apiService)
+    fun provideElephantsRepository(elephantsApi: ElephantsApi): ElephantsRepository{
+        return ElephantsRepository(elephantsApi)
     }
 }

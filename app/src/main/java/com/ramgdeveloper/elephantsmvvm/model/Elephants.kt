@@ -1,8 +1,6 @@
 package com.ramgdeveloper.elephantsmvvm.model
 
-class Elephant : ArrayList<Elephant.ElephantItem>(){
-     class ElephantItem(
-        val __v: Int,
+data class Elephants(
         val _id: String,
         val affiliation: String,
         val dob: String,
@@ -16,4 +14,3 @@ class Elephant : ArrayList<Elephant.ElephantItem>(){
         val species: String,
         val wikilink: String
     )
-}

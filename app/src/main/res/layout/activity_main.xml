@@ -13,21 +13,43 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="The Elephants Zoo"
-        android:textStyle="bold"
-        android:textColor="#590404"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#590404"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/elephantsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:spanCount="2"
+        tools:listitem="@layout/elephants_row" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<com.cooltechworks.views.shimmer.ShimmerRecyclerView
         android:id="@+id/elephantsRecycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:scrollbars="none"
-        app:shimmer_demo_layout_manager_type="grid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -36,5 +58,5 @@
         app:shimmer_demo_grid_child_count="2"
         app:shimmer_demo_layout="@layout/shimmer_layout"
         tools:listitem="@layout/elephants_row" />
-
+-->
 </androidx.constraintlayout.widget.ConstraintLayout>
